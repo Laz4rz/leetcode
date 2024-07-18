@@ -1,6 +1,6 @@
 Literally **THE MOST** important thing in doing Leetcodes is: **MAKING SURE YOU UNDERSTOOD THE TASK**. I spent so much time thinking about non-existing problems, just because I misread or misunderstood something. For many of you English is not the first language. I know you know English well tho. I also understand English well. But understanding English and perfectly understanding the algorithmic task you are to implement, can someone mean two different things. Go slowly, it's just you and the task. You got it.
 
-#### 9. Palindrome Number
+#### 9. Palindrome Number (Easy)
 
 ```python
 class Solution(object):
@@ -54,3 +54,12 @@ class Solution(object):
 
         return x == reverse or x == (reverse // 10) # second is for not even
 ```
+
+---
+
+#### 53. Maximum Subarray (Medium)
+
+Rewritten instruction: Find the maximum sum of consecutive elements of the array.
+
+Main intuition: If the current element will make the sum of the rest elements of the array smaller, than it would be without it, then skip it. Our question is basically:
+$$\rmtext{nums[i]} + \rmtext{sum(nums[i+1:)} > \rmtext{sum(nums[i+1:)}$$
