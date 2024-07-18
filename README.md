@@ -62,4 +62,4 @@ class Solution(object):
 Rewritten instruction: Find the maximum sum of consecutive elements of the array.
 
 Main intuition: If the current element will make the sum of the rest elements of the array smaller, than it would be without it, then skip it. Our question is basically:
-$$\rmtext{nums[i]} + \rmtext{sum(nums[i+1:)} > \rmtext{sum(nums[i+1:)}$$
+$$\textrm{nums[i]} + \textrm{sum(nums[i+1:)} > \text{sum(nums[i+1:)}$$
