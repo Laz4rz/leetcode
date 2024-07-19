@@ -128,5 +128,30 @@ def maxSubArray(self, nums):
     return top
 ```
 
-Now remember the intuition I wrote above. That's why reading the instruction **very** slowly is so important. We do not have to iterate so many times.
+How can we make it better? In general we know, that less than zero elements are bad, but we can't just remove them all. Sometimes they can be in the middle of good elements, and together make a maximum subarray.
+
+Is there a way to make it smart? Turns out there it, we can simply cut the leading less than zero elements. Whenever our carried sum is below 0, we can be sure that it can be safely dropped, and either we hope that already found max is the real max, or the leftover elements will yield the real max. A good intuition on that: https://www.youtube.com/watch?v=5WZl3MMT0Eg where neetcode compares it to a sliding window — makes it nicer to understand.
+
+```python
+def maxSubArray(self, nums):
+    # we get non-empty array, so we know max
+    # has to be at least not smaller than the
+    # first element
+    maxSub = nums[0]
+    currSum = 0
+
+    # we make a single pass through the array
+    for n in nums:
+        # if our carried sum is smaller than 0
+        # we dont need it, its not gonna do any
+        # good to the leftover sums
+        if currSum < 0:
+            currSum = 0
+        currSum += n
+        maxSub = max(currSum, maxSub)
+    
+    return maxSub
+```
+
+This is quite beautiful. This approach is called Kadane's algorithm and it's time complexiti is $O(n)$, since we make just a single pass over the elements.
 
