@@ -153,5 +153,46 @@ def maxSubArray(self, nums):
     return maxSub
 ```
 
-This is quite beautiful. This approach is called Kadane's algorithm and it's time complexiti is $O(n)$, since we make just a single pass over the elements.
+This is quite beautiful. This approach is called Kadane's algorithm and it's time complexity is $O(n)$, since we make just a single pass over the elements.
 
+#### 27. Remove Element
+
+So what do they mean by remove in-place? You may remember that certain operations in python can be done in place, that is, they will not return a new object that you need to assign to variable, instead they change the object you perform the operation on and it's kept under the same variable name. Probably the best Python example is the two ways to sort:
+
+```python 
+arr = [1, 3, 2]
+
+# not in-place
+# you need to assign new memory for a new variable
+arrSorted = sorted(arr)
+
+# in-place
+# you operate on the same object in memory 
+arr.sort()
+```
+
+So we are asked not to create a new array, for which we only append elements different than `val`. The usual way to do it is to move all elements not meeting the condition to the end of the array, and keeping track of the number of values meeting the condition. We can then return the array, and number of values meeting the condition. This way we cut off all the values we don't want. Imagine we don't want any 5s in our array:
+
+```python
+arr = [5, 2, 4, 1, 5, 6, 5]
+
+remove5s(arr) # -> [2, 4, 1, 6, 5, 5, 5], 4
+```
+
+So the plan for this exercise is to just iterate over the examples, keeping track of current numbers meeting the condition, and swapping these numbers so that they occupy leading positions in the array:
+
+```python
+def removeElement(self, nums, val):
+    n = len(nums)
+    k = 0
+
+    for i in range(n):
+        if nums[i] != val:
+            nums[k] = nums[i]
+            k += 1
+    return k
+```
+
+We can't really do a better job. We are not taking any new memory, and the time complexity is just $O(n)$, as we only iterate once.
+
+#### 
