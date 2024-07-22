@@ -1,4 +1,5 @@
 import random 
+from collections import Counter
 
 random.seed(42)
 
@@ -15,11 +16,9 @@ def quicksort(arr, start, end):
    """
    just by last element
    """
-   original = arr[:] # for shallow copy
+   # original = arr[:] # for shallow copy
+   invariant = Counter(arr)
    if start >= end:
-      # assert on sorting invariant:
-      # all elements have to match before and after, only position changes
-      assert set(original) == set(arr), "dang we lost someone"
       return arr
    pivot = arr[end]
    n = end
@@ -34,7 +33,7 @@ def quicksort(arr, start, end):
    print(f"{start=}, {end=}")
    print(arr)
    print("pivot is:", pivot) 
-
+   
    for j in range(start, end):
        if arr[j] < pivot:
            i += 1
@@ -46,6 +45,11 @@ def quicksort(arr, start, end):
    arr[end] = arr[i+1]
    arr[i+1] = pivot
 
+   # assert on sorting invariant:
+   # all elements have to match before and after, only position changes
+   modified = Counter(arr)
+   assert all([invariant[key] == modified[key] for key in invariant.keys()]), "dang we lost someone"
+
    quicksort(arr, start, i)
    quicksort(arr, i+2, end)
    return arr
@@ -56,8 +60,8 @@ print(f"\nFinal {arr}")
 print(f"Total number of operations: {n_operations}")
 
 # testing suite
-recursion_depth = 0
 n_operations = 0 
 for i in range(100):
+    recursion_depth = 0
     quicksort(random_array(100, 0, 100), 0, 99)
 print(f"Average number of operations: {n_operations/100}")
