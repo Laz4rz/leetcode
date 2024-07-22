@@ -11,9 +11,11 @@ def quicksort(arr):
    n = len(arr)
    i = -1
    swap = 0
+
    print(10*"=", " Quicksort ", 10*"=")
    print(arr)
    print("pivot is:", pivot)
+   
    for j in range(n):
        if arr[j] <= pivot:
            i += 1
@@ -21,8 +23,10 @@ def quicksort(arr):
            swap = arr[j]
            arr[j] = arr[i]
            arr[i] = swap
-   arr[-1] = arr[i+1]
-   arr[i+1] = pivot
+#   arr[-1] = arr[i+1]
+ #  arr[i+1] = pivot
+   
    print(arr)
    return arr
+
 quicksort(arr)
