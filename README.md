@@ -216,8 +216,54 @@ So what can we do to make it better? One approach is to first sort the array (ie
 
 Learning how quicksort works is a typical journey in understanding any algorithm — you have to eyeball it, play with it, and magically it clicks. In general you pick the last element, sort the array in regard to this element so that it's placed in a correct spot, having smaller values to the left and greater values to the right. Then you recursively do that with the values on the left and values on the right, skipping the one element you placed correctly in the first function call. A good, slow animation is here: https://www.youtube.com/watch?v=Vtckgz38QHs&t=318s. 
 
-Example of quicksort implementation is in `quicksort.py`. Tried on 100 random arrays of length 100, with ints between 0, and 100 it yields an average of 647.01 operations. Which is in the ballpark of expected $O(n \log n)$ as it would yield $700$ operations. Reminder that for worst case scenario, when the partitions quicksort creates while sorting, are heavily unbalanced, the complexity can grow up to $O(n^2)$.  
+Example of quicksort implementation is in `quicksort.py`. Tried on 100 random arrays of length 100, with ints between 0, and 100 it yields an average of 647.01 operations. Which is in the ballpark of expected $O(n \log n)$ as it would yield $700$ operations. For n=1000, average is 11090.93 — still not bad. Reminder that for worst case scenario, when the partitions quicksort creates while sorting, are heavily unbalanced, the complexity can grow up to $O(n^2)$.  
 
 As we set to really make an example of these learning problems, we have to show the $O(n\log n)$ time complexity of quicksort. 
+
+=== I'll get back to it ===
+
+The third, and optimal way is to use a $O(1)$ accessible data structures — hash map or hash set. 
+
+##### Hash map/set structure and how it's $O(1)$
+
+When we use lists, we can't straight up access some value that's in it. We have to either know the index corresponding to it, or find it. It's because values are in no way related to the indexes. In hash structures like the map or set the values are in direct relation to the indexes, as the indexes are assigned with some kind of hash function. Heuristic is: $\text{WhatsMyAddress(someValue)}=\text{adressForThisValue}$. 
+
+You of course try to make this function yield unique addresses. But you will fail, and sometimes these addresses will collide. Then you just have to iterate to the next free address. It may result in taking an address, that some other value would be given when put through the hashing. Well, too bad. Then this other value also has to iterate to the next free address. 
+
+You may now wonder, if these colisions happen, how do we then get $O(1)$? Truth is — sometimes we don't. That's why the less collisions, the better. Cause whenever there is collision, we have to iterate, starting from the hash-that-would-be, to the hash that this value managed to get. 
+
+```python
+class HashSet:
+    DEF_SIZE = 100
+
+    def __init__(self, size: int = None):
+        if size is None:
+            size = self.DEF_SIZE
+        self.arr = size * [None]
+        self.size = size
+
+    def hash(self, value: int):
+        return value % self.size
+
+    def put(self, value: int) -> None:
+        hashed = self.hash(value)
+        for i in range(hashed, self.size*2):
+            try_hash = i % self.size
+            if self.arr[try_hash] is None:
+                self.arr[try_hash] = value
+                print(f"Value {value} got key {try_hash}")
+                return None
+        print("No free hashes")
+
+    def get(self, value: int) -> bool:
+        hashed = self.hash(value)
+        for i in range(hashed, self.size*2):
+            try_hash = i % self.size
+            if self.arr[try_hash] == value:
+                return True
+        return False
+```
+
+The above is also in `hashset.py`, together with some test cases. Please play with it, cause I may have skipped something, it's midnight. But the idea is there. 
 
 
