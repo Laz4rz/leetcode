@@ -195,4 +195,18 @@ def removeElement(self, nums, val):
 
 We can't really do a better job. We are not taking any new memory, and the time complexity is just $O(n)$, as we only iterate once.
 
-#### 
+#### 217. Contains Duplicate
+
+The brute force approach is to iterate with two for loops, and just compare all the numbers with each other. But we already know this is not a good solution. We also know it's time complexity thanks to the problem 53., we have nested for loops, so it's $O(n^2)$. 
+
+```python
+def containsDuplicate(self, nums):
+    for num1 in nums:
+        for num2 in nums:
+            if num1 == num2:
+                return True
+    return False
+```
+
+So what can we do to make it better? One approach is to first sort the array (ie. with quicksort with time complexity $n\log n$) and then iterating just once, comparing subsequent elements. The total time complexity for this would be $O(n\log n + n)=O(n\log n)$ Remember? We talked in 53. that only the dominant terms matter in big O notation, that's why we only got the $n\log n$ part in final time complexity. 
+
