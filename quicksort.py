@@ -7,8 +7,10 @@ def quicksort(arr, start, end):
    """
    just by last element
    """
+   original = arr[:] # for shallow copy
    if start >= end:
-       return arr
+      assert all([el in original for el in arr]), "dang we lost someone"
+      return arr
    pivot = arr[end]
    n = end
    i = start - 1
@@ -38,3 +40,5 @@ def quicksort(arr, start, end):
 arr = quicksort(arr, 0, len(arr)-1)
 
 print(f"\nFinal {arr}")
+
+
