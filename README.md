@@ -197,7 +197,7 @@ We can't really do a better job. We are not taking any new memory, and the time 
 
 ---
 
-#### 217. Contains Duplicate
+#### 217. Contains Duplicate (Easy)
 
 The brute force approach is to iterate with two for loops, and just compare all the numbers with each other. But we already know this is not a good solution. We also know it's time complexity thanks to the problem 53., we have nested for loops, so it's $O(n^2)$. 
 
@@ -266,4 +266,19 @@ class HashSet:
 
 The above is also in `hashset.py`, together with some test cases. Please play with it, cause I may have skipped something, it's midnight. But the idea is there. 
 
+##### Proper (and optimal) solution
 
+Knowing all of this, but mostly about the existence, and complexity of accessing hashed data structures, we can finally write a proper solution. Got to admit that all this build up is going to fall off the cliff, because the pay-off is the simplest python code you've ever seen. But I believe, that unless I know how stuff works to the lowest level, I can't really make an informed decision of what to use, when and why. And I guess I want this FAANG job, so it's either fluent leetcodes or nothing for me.
+
+```python
+def containsDuplicate(self, nums):
+    unique = set()
+    n = len(nums)
+    for num in nums:
+        if num in unique:
+            return True
+        unique.add(num)
+    return False
+```
+
+This does not really seem impressing right? But it is from a computational POV. We want from a potential $O(n^2)$ down to $O(n)$. Yeah, that's gonna impress this bored interviewing senior 10x engineer. Too bad it's an Easy problem. 
