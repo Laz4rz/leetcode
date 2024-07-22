@@ -210,3 +210,10 @@ def containsDuplicate(self, nums):
 
 So what can we do to make it better? One approach is to first sort the array (ie. with quicksort with time complexity $n\log n$) and then iterating just once, comparing subsequent elements. The total time complexity for this would be $O(n\log n + n)=O(n\log n)$ Remember? We talked in 53. that only the dominant terms matter in big O notation, that's why we only got the $n\log n$ part in final time complexity. 
 
+Learning how quicksort works is a typical journey in understanding any algorithm — you have to eyeball it, play with it, and magically it clicks. In general you pick the last element, sort the array in regard to this element so that it's placed in a correct spot, having smaller values to the left and greater values to the right. Then you recursively do that with the values on the left and values on the right, skipping the one element you placed correctly in the first function call. A good, slow animation is here: https://www.youtube.com/watch?v=Vtckgz38QHs&t=318s. 
+
+Example of quicksort implementation is in `quicksort.py`. Tried on 100 random arrays of length 100, with ints between 0, and 100 it yields an average of 647.01 operations. Which is in the ballpark of expected $O(n \log n)$ as it would yield $700$ operations. Reminder that for worst case scenario, when the partitions quicksort creates while sorting, are heavily unbalanced, the complexity can grow up to $O(n^2)$.  
+
+As we set to really make an example of these learning problems, we have to show the $O(n\log n)$ time complexity of quicksort. 
+
+
