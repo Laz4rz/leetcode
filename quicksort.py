@@ -1,4 +1,6 @@
 import random 
+import math
+
 from collections import Counter
 
 random.seed(42)
@@ -61,7 +63,13 @@ print(f"Total number of operations: {n_operations}")
 
 # testing suite
 n_operations = 0 
-for i in range(100):
+n_arrays   = 100
+array_len  = 1000
+max_number = 10000
+end        = array_len - 1
+for i in range(n_arrays):
     recursion_depth = 0
-    quicksort(random_array(100, 0, 100), 0, 99)
-print(f"Average number of operations: {n_operations/100}")
+    quicksort(random_array(array_len, 0, max_number), 0, end)
+print(f"Average number of operations: {n_operations/n_arrays}")
+print(f"Big O bound of operations (if not worst case): {array_len * math.log(array_len, 2)}")
+print(f"Big O bound of operations (for worst case O(n^2)): {array_len ** 2}")
