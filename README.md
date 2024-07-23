@@ -155,7 +155,9 @@ def maxSubArray(self, nums):
 
 This is quite beautiful. This approach is called Kadane's algorithm and it's time complexity is $O(n)$, since we make just a single pass over the elements.
 
-#### 27. Remove Element
+---
+
+#### 27. Remove Element (Easy)
 
 So what do they mean by remove in-place? You may remember that certain operations in python can be done in place, that is, they will not return a new object that you need to assign to variable, instead they change the object you perform the operation on and it's kept under the same variable name. Probably the best Python example is the two ways to sort:
 
