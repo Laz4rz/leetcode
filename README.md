@@ -339,4 +339,46 @@ The only hop here is that we have to handle the None tails of the lists we're tr
 
 ##### Optimal solution
 
+If we are a little more smart — and want to deal with linked list back and forth pointers — we can do it in a single iteration. 
 
+```python
+def addTwoNumbers(self, l1, l2):
+    # we need to initiate a dummy head so that
+    # we can freely add new elements in the while loop
+    # then we just drop this first node, and return
+    # ones holding correct numbers
+    ll_head = ListNode(0, None)
+    tail = ll_head  
+    carry = 0
+
+    # why do we need the carry condition? the last
+    # summation can yield a carry, so even though
+    # we'll be finished with lists, we still have
+    # to append carry
+    while l1 is not None or l2 is not None or carry != 0:
+        v1 = l1.val if l1 is not None else 0
+        v2 = l2.val if l2 is not None else 0
+
+        number = carry + v1 + v2
+        digit = number % 10
+        carry = number // 10
+        
+        # back and forth ll shenanigans that allow 
+        # squishing it into a single loop
+        # basically, we keep hold of the first element
+        # because we need it for the return
+        # and iteratively move the tail, so we can
+        # add new elements as well
+        node = ListNode(digit)
+        tail.next = node
+        tail = tail.next
+        
+        # thanks to this, we can skip checks like l1.next.next
+        l1 = l1.next if l1 is not None else None
+        l2 = l2.next if l2 is not None else None
+
+    r = ll_head.next
+    return r
+```
+
+Funnily, my solution is basically the exact same solution that's available on the solutions page. Of course I am looking there for help when I'm really stuck, but this time I wrote it and was like "OH MY GOD ITS MY CODE THERE, ARE WE THE SAME PERSON!?". The comments should point you at what we are trying to do with all the nodes, you may need to ponder for a bit and it'll click. If not, then take the ListNode class and play with it. You'll get it.
