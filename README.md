@@ -282,3 +282,59 @@ def containsDuplicate(self, nums):
 ```
 
 This does not really seem impressing right? But it is from a computational POV. We want from a potential $O(n^2)$ down to $O(n)$. Yeah, that's gonna impress this bored interviewing senior 10x engineer. Too bad it's an Easy problem. 
+
+---
+
+#### 2. Add Two Numbers (Medium)
+
+We are asked to traverse two linked lists (they can have different lengths!), add the numbers, and return them in a linked list again. We know that due to the linked list nature, the numbers are placed there in reversed order. 
+
+##### So what is a linked list?
+
+I wont really go into the details here, because it's not really necessary. It's basically a matryoshka.
+
+```python
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+``` 
+
+The class definition is pretty self-explanatory. You have a box with two holes. You put the value in one, and another box in the other hole.
+
+##### Naive solution 
+
+First solution that comes to mind is to just traverse both lists, add encountered values (scaling them by $10^i$, where $i$ is value's position in list), iterate over the accumulated value's digits (either as a string or calculating single digits), and put it in a new linked list. 
+
+```python
+def addTwoNumbers(self, l1, l2):
+    acc = 0
+    i = 0 
+
+    while l1 is not None or l2 is not None:
+        v1 = l1.val if l1 is not None else 0
+        v2 = l2.val if l2 is not None else 0
+
+        acc += (v1 * 10 ** i) + (v2 * 10 ** i)
+        i += 1
+
+        l1 = l1.next if l1 is not None else None
+        l2 = l2.next if l2 is not None else None
+
+     ccs = str(acc)
+     urr = ListNode(int(accs[0]), None)
+
+     for el in accs[1:]:
+        curr = ListNode(int(el), curr)
+
+     return curr
+``` 
+
+The only hop here is that we have to handle the None tails of the lists we're traversing. Even though this solution is quite nice — time complexity is $O(n)$ — there are still some upgrades to be made, ie.: 
+
+- addition digit by digit, not by building a whole number, as this could lead to an overflow for very long lists,  
+- not using the int -> string conversion, cause even though it does not change the big O complexity, it adds an iteration
+
+##### Optimal solution
+
+
