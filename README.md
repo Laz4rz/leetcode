@@ -197,6 +197,8 @@ def removeElement(self, nums, val):
 
 We can't really do a better job. We are not taking any new memory, and the time complexity is just $O(n)$, as we only iterate once.
 
+This class of problems is usually best solved with a two-pointer technique. We did just that, having `i` iterate over the whole array, and `k` keeping track of non-removed indexes. For a more in-depth explanation of two-pointer: https://leetcode.com/articles/two-pointer-technique.
+
 ---
 
 #### 217. Contains Duplicate (Easy)
@@ -459,6 +461,34 @@ def majorityElement(self, nums):
 
 There you have it. Now you not only recognize, but also understand the inner workings of the most important terms in all leetcodes: quicksort, hash structures, time complexity, and space complexity. You also know how to approach, and iterate on your solutions, aiming at the most optimized space/time complexities. 
 
-Enjoy your grind.
+---
 
- 
+#### 26. Remove duplicates (Easy)
+
+Now is the time to put all of the above into practice. There is no reason for us not to one-shot the optimal solution for this problem, it's literally problem 27. all over again. 
+
+We know that it's sorted, we know what in-place means, we know that for problems like this two-pointer technique could be useful. So let's just adapt the 27. solution, check complexities to see whether there is place for any more optimization, and call it a day.
+
+```python
+def removeDuplicates(self, nums):
+    k = 1
+    prev = nums[0]
+
+    for el in nums[1:]:
+        if prev != el:
+            nums[k] = el
+            k += 1
+            prev = el
+    return k
+```
+
+Give yourself a quiz now. Time complexity? Space complexity?
+
+- Time complexity: $O(n)$ as we only ride a single iteration over inputs in the for loop
+- Space complexity: $O(1)$, cause we only hold single valued variables, not growing with input size
+
+There you have it. We are so good now, we can start doing these "ummm yeah, I haven't seen this problem, but I can try..." and the proceed to build an optimal solution scenes that the recruiting managers love so much. 
+
+---
+
+There you have it. Enjoy the grind. Crush like 100 more problems and apply for the job you always wanted.
