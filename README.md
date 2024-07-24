@@ -2,7 +2,7 @@ Literally **THE MOST** important thing in doing Leetcodes is: **MAKING SURE YOU 
 
 ## Learning problems
 
-Problems I want to describe in-depth, so that they will serve as examples for all the other ones. 
+Problems I want to describe in-depth, so that they will serve as examples, introducing terms, and approaches useful for all the other problems. 
 
 #### 9. Palindrome Number (Easy)
 
@@ -382,3 +382,83 @@ def addTwoNumbers(self, l1, l2):
 ```
 
 Funnily, my solution is basically the exact same solution that's available on the solutions page. Of course I am looking there for help when I'm really stuck, but this time I wrote it and was like "OH MY GOD ITS MY CODE THERE, ARE WE THE SAME PERSON!?". The comments should point you at what we are trying to do with all the nodes, you may need to ponder for a bit and it'll click. If not, then take the ListNode class and play with it. You'll get it.
+
+---
+
+169. Majority Element (Easy)
+
+We are asked to find the most common element in a given array, we also know that this element will take more than $n/2$ of the total number of array elements. 
+
+There pretty much is no bad approach. We can for example sort the array, and choose the middle element — we know that the majority element will be present at least $n/2$, so we are sure it will be in the middle no matter what after sorting. Thanks to 217. we know that the time complexity for the generally quickest sorting (quicksort) is $n \log n$. So the overall time complexity of this approach is also $n \log n$. Can we do better?
+
+##### It's time optimal, but is it space optimal?
+
+The second approach is to use a hash map as a counter, comparing the current most common element with updated counts of the current `nums` element. Thanks to hash structures $O(1)$ time complexity, we only pay the price of a single iteration over the array — $O(n)$.
+
+```python
+def majorityElement(self, nums):
+    counter = {}
+    majority = nums[0]
+
+    for el in nums:
+        if el in counter.keys():
+            counter[el] += 1
+        else:
+            counter[el] = 1
+        majority = el if counter[el] > counter[majority] else majority
+    return majority
+```
+
+But what about space complexity? What even is space complexity? 
+
+##### Space complexity
+
+Space complexity is the big-O notation space taken by the algorithm. Depending on context you might be asked about the complexity with or without inputs. The convention is pretty bad, usually by space complexity people mean space taken without inputs. So if you have a function summing some array elements:
+
+```python
+def sum(arr):
+    acc = 0
+    for el in arr:
+        acc += el
+    return acc
+```
+
+The space complexity will be $O(1)$, cause you only initialized an single value variable `acc`. But if you want to go strict-math-gestapo, then it's actually space complexity and auxiliary complexity.
+
+- Space complexity: total space taken by the inputs and additional variables
+- Auxiliary complexity: only space taken by additional variables
+
+So for the `sum` function the strict space complexity would be $O(n + 1) = O(n)$, as you have an array of inputs of length $n$ and a single value `acc`, but for big-O only the dominant terms matter (again look at 217. if are unsure why). Auxiliary space would be $O(1)$, cause we only look at the additional variable, so `acc` in this example.
+
+As for our `majorityElement` function, the space complexity is $O(n + 2n + 1) = O(n)$, where the terms are respectively: inputs, dictionary ($n$ keys and $n$ items), and `majority`. As we are not concerned with constant factors in big-O, the whole thing shortens to just $O(n)$. The auxiliary complexity in this example is the same as space complexity cause $O(2n + 1) = O(n)$.
+
+Here I guess I'll be using the space complexity term to talk about auxiliary complexity. In the followup to this leetcode we are asked to bring the "space complexity" down to $O(1)$, but we wouldn't be able to do that to THE space complexity, meaning inputs + additional variables. So they got to be asking about THE auxiliary complexity. Due to different sources using space complexity name instead of auxiliary, we will stick to it so we agree with the common convention. We don't have to be that strict. We are not mathematicians.
+
+##### Very optimal solution
+
+Turns out we can write a solution with time complexity $O(n)$ and space complexity $O(1)$ — doesn't it sound amazing (Probably no, if you have a happy grass-touching life)!?
+
+Moore's voting algorithm, is literally made for finding the majority element. Think of it as growing in power when more of the same elements are found or losing hp points when you encounter a different element. We know that the majority element will have at least $n/2 + 1$ times. So not even all it's enemies (other elements) together (counted) can bring it down ($n/2 + 1 > \sum\text{other}$). 
+
+```python
+def majorityElement(self, nums):
+    majority = 0
+    counter = 0
+
+    for el in nums:
+        if el == majority:
+            counter += 1
+        else:
+            counter -= 1
+        
+        if counter < 0:
+            majority = el
+            counter = 0
+    return majority
+```
+
+There you have it. Now you not only recognize, but also understand the inner workings of the most important terms in all leetcodes: quicksort, hash structures, time complexity, and space complexity. You also know how to approach, and iterate on your solutions, aiming at the most optimized space/time complexities. 
+
+Enjoy your grind.
+
+ 
