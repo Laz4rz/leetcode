@@ -492,3 +492,42 @@ There you have it. We are so good now, we can start doing these "ummm yeah, I ha
 ---
 
 There you have it. Enjoy the grind. Crush like 100 more problems and apply for the job you always wanted.
+
+## Other problems
+
+#### 3. Longest Substring Without Repeating Characters
+
+First solution that came to my mind, had quite a lot of problems, with a few edge cases, which made me go from like 10 minutes to an hour solving this. 
+
+The overall algorithm is pretty self explanatory. We have to iterate once, keeping track of which character is where. We only want the latest position of any duplicated character, as we use it to calculate the current length, that we compare with maximum substring length. This is why we want to use a hash map, that for each seen character, keeps it's latest position. Then whenever we meet a character that is present in the map, we move the bound that starts the current substring, and update the seen characters position.  
+
+Hops that I slept on:
+- when updating bound, it has to have the `+ 1`, cause we are bound by the +1 element in respect to the duplicate we found
+- due to the above the `bound <= seen[el]` has to allow the equality
+- the max has to look for `i - bound + 1`, as for example two element examples would produce bad outputs
+
+```python
+def lengthOfLongestSubstring(self, s):
+    if len(s) == 0:
+        return 0
+        
+    seen = {s[0]: 0}
+    bound = 0
+    maxu = 1
+    i = 1
+
+    for el in s[1:]:
+        if el in seen.keys() and bound <= seen[el]:
+            bound = seen[el] + 1
+        seen[el] = i
+        maxu = max(i - bound + 1, maxu)
+        i += 1
+
+    return maxu
+```
+
+The time complexity for this algorithm is $O(n)$, as we only iterate once with the for-loop, and the lookup time for hash map that we do with each call is just $O(1)$. The space complexity is $O(1)$, cause even though the dictionary is kind of input dependent, it's still bound by the task description: "s consists of English letters, digits, symbols and spaces". So to make our $O(1)$ point clearer, we could initially populate it with all possible characters, and just update their positions. 
+
+Well done, we can't really do anything better here.
+
+#### 4. To Be Continued 
