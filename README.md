@@ -531,3 +531,74 @@ The time complexity for this algorithm is $O(n)$, as we only iterate once with t
 Well done, we can't really do anything better here.
 
 #### 4. To Be Continued 
+
+Ok, median — the middle value of an array, or an average of the two middle values if the array is even. We are going to start really naively. 
+
+First idea (working) that comes to my mind is to merge the arrays, preserving the order, and return middle. That's not the greatest, as: 1. I'm not doing it in-place, 2. I'm merging naively.
+
+```python 
+def findMedianSortedArrays(self, nums1, nums2):
+    arr = []
+    j = 0 
+
+    for i in range(len(nums1)):
+        while j < len(nums2) and nums2[j] < nums1[i]:
+            arr.append(nums2[j])
+            j += 1
+        arr.append(nums1[i])
+    while j < len(nums2):
+        arr.append(nums2[j])
+        j += 1
+
+    n = len(arr)
+    if n % 2 == 0:
+        return (arr[n//2-1] + arr[n//2]) / 2.0
+    else:
+        return arr[n//2]
+```
+
+Time complexity for this is $O(m + n)$ (linear analog to a single input functions), so could be worse, but descriptions suggests that we should be doing that in $O(\log(m+n))$. Space complexity is also $O(m+n)$, as the array we build holds as many elements, as the two inputs combined. Not sure if we can make it better yet. 
+
+##### More optimal, two-pointer with no array
+
+Ok, I kind of cheated this one. It's basically the same idea as above, but we are not holding the big ass new array. This way we bring the space complexity $O(n+m) \rightarrow O(1)$. I couldn't quite figure out the termination conditions for an implementation that's not using temporary values `v1` and `v2`. 
+
+```python
+def findMedianSortedArrays(self, nums1, nums2):
+    n = len(nums1)
+    m = len(nums2)
+    nm = n + m
+    middle = nm % 2 != 0
+    target = nm // 2
+    i = 0
+    j = 0
+    v1 = 0
+    v2 = 0
+
+    for _ in range(0, target+1):
+        v2 = v1
+        if i < n and j < m:
+            if nums1[i] < nums2[j]:
+                v1 = nums1[i]
+                i += 1
+            else:
+                v1 = nums2[j]
+                j += 1
+        elif i < n:
+            v1 = nums1[i]
+            i += 1
+        else:
+            v1 = nums2[j]
+            j += 1
+
+    if middle:
+        return v1
+    else:
+        return (v1+v2) / 2.0
+```
+
+The time complexity is again $O(n+m)$, as we may have to iterate over both arrays.
+
+##### Optimal, Binary search
+
+
